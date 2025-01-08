@@ -24,42 +24,23 @@ public class PostController {
 
     @GetMapping("/{id}")
     public ResponseEntity<?> findById(@PathVariable UUID id) {
-        try {
             return ResponseEntity.ok(postSvc.findById(id));
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 
 
     @PostMapping
     public ResponseEntity<?> creae(@RequestBody PostCreateRequest request) {
-        try {
             return new ResponseEntity<>(postSvc.create(request), HttpStatus.CREATED);
-
-        } catch (AlreadyExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
     }
 
     @PutMapping("/{id}")
     public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Post request) {
-        try {
             return new ResponseEntity<>(postSvc.update(id, request), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AlreadyExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
     }
 
     @DeleteMapping("/{id}")
     public ResponseEntity<?> delete(@PathVariable UUID id) {
-        try {
             return new ResponseEntity<>(postSvc.delete(id), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 
 }

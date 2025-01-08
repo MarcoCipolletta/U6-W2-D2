@@ -1,5 +1,6 @@
 package it.epicode.u6_w2_d2.exception;
 
+import jakarta.persistence.EntityNotFoundException;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ControllerAdvice;
@@ -21,5 +22,13 @@ public class GlobalExceptionHandler {
         return new ResponseEntity<>(errorDetails, HttpStatus.BAD_REQUEST);
     }
 
-    // Puoi aggiungere altri handler per altre eccezioni qui
+    @ExceptionHandler(value = EntityNotFoundException.class)
+    protected ResponseEntity<Object> entityNotFound(EntityNotFoundException ex) {
+        return new ResponseEntity<>("Error: "+ex.getMessage(), HttpStatus.NOT_FOUND);
+    }
+
+    @ExceptionHandler(value = AlreadyExistsException.class)
+    protected ResponseEntity<Object> alreadyExists(AlreadyExistsException ex) {
+        return new ResponseEntity<>("Error: "+ex.getMessage(), HttpStatus.CONFLICT);
+    }
 }

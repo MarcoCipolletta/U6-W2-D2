@@ -22,43 +22,24 @@ public class AuthorController {
     }
 
     @GetMapping("/{id}")
-    public ResponseEntity<?> findById(@PathVariable UUID id) {
-        try {
+    public ResponseEntity<Author> findById(@PathVariable UUID id) {
             return ResponseEntity.ok(authorSvc.findById(id));
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
     }
 
 
     @PostMapping
-    public ResponseEntity<?> creae(@RequestBody AuthorCreateRequest request) {
-        try {
-            return new ResponseEntity<>(authorSvc.create(request), HttpStatus.CREATED);
-
-        } catch (AlreadyExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
+    public ResponseEntity<Author> creae(@RequestBody AuthorCreateRequest request) {
+        return new ResponseEntity<>(authorSvc.create(request), HttpStatus.CREATED);
     }
 
     @PutMapping("/{id}")
-    public ResponseEntity<?> update(@PathVariable UUID id, @RequestBody Author request) {
-        try {
+    public ResponseEntity<Author> update(@PathVariable UUID id, @RequestBody Author request) {
             return new ResponseEntity<>(authorSvc.update(id, request), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        } catch (AlreadyExistsException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.CONFLICT);
-        }
     }
 
     @DeleteMapping("/{id}")
-    public ResponseEntity<?> delete(@PathVariable UUID id) {
-        try {
-            return new ResponseEntity<>(authorSvc.delete(id), HttpStatus.OK);
-        } catch (EntityNotFoundException e) {
-            return new ResponseEntity<>(e.getMessage(), HttpStatus.NOT_FOUND);
-        }
+    public ResponseEntity<String> delete(@PathVariable UUID id) {
+            return new ResponseEntity<>(authorSvc.delete(id), HttpStatus.NO_CONTENT);
     }
 
 
